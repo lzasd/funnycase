@@ -10,3 +10,4 @@ def tag(name, *content, cls=None, **attrs):
         return '\n'.join('<%s%s>%s</%s>' %(name, attr_str, c, name) for c in content)
     else:
         return '<%s%s />' % (name, attr_str)
+print(tag('p','asd','dswww',cls='cls',ccc = 'aaa'))
