@@ -10,6 +10,7 @@ import functools
 import time
 # 递归 使用lru_cache缓存机制 优化递归
 # lru_cache 将函数的值缓存，在此遇到相同的函数时 直接使用这个值，不执行函数
+# 实现缓冲协议的装饰器
 @functools.lru_cache()
 def fib2(n):
     if n < 2:

@@ -113,7 +113,54 @@ quick_sort = lambda array: array if len(array) <= 1 else quick_sort(
     [item for item in array[1:] if item < array[0]]) + [array[0]] + quick_sort(
     [item for item in array[1:] if item >= array[0]])
 
-print(quick_sort([1,223,2,312312,332,332,45]))
+# print(quick_sort([1,223,2,312312,332,332,45]))
+
+
+
+
+
+
+
+# 用非递归实现快排
+
+def quick(array):
+    list1 = []
+    array = tuple(array)
+    lf = [i for i in array[1:] if i < array[0]]
+    lr = [i for i in array[1:] if i >= array[0]]
+    list1.append(array[0])
+    while True:
+        if len(lf) == 1:
+            list1.insert(0,lf[0])
+            break
+        if len(lf) <1 :
+            break
+        list1.insert(0, lf[0])
+        lf = [i for i in lf[1:] if i < lf[0]]
+
+
+    while True:
+        if len(lr) == 1:
+            list1 += lr
+            break
+        if len(lr) < 1:
+            break
+        list1.append(lr[0])
+        lr = [i for i in lr[1:] if i >= lr[0]]
+
+
+
+    return list1
+
+print(quick([1,3,6,5,8,7]))
+
+
+
+
+
+
+
+
 
 
 

@@ -2,7 +2,6 @@
 # 适配器模式主要应用于希望复用一些现存的类，但是接口又与复用环境要求不一致的情况，
 # 比如在需要对早期代码复用一些功能等应用上很有实际价值。
 
-
 class adaptee(object):
     def foo(self):
         print ('foo in adaptee')
