@@ -1,0 +1,45 @@
+## 图片染色
+def get_hair_index(tt):
+    c_array = np.array(tt, dtype=np.float64)
+    c_flaten = np.reshape(c_array, [-1, 1])
+    c_index = np.flatnonzero(c_flaten != 0)
+    return c_index
+
+
+def get_mean(tt, indexs):
+    c_array = np.array(tt, dtype=np.float64)
+    c_flaten = np.reshape(c_array, [-1, 1])
+    mean = np.sum(c_flaten[indexs]) / len(indexs) if len(indexs) != 0 else 0
+    return round(mean, 2)
+
+
+def trans_hair_color(url, rgb, url2):
+    img = get_img_online(url)
+
+    r1, g1, b1, a = img.convert("RGBA").split()
+
+    R, G, B = rgb
+
+    index = get_hair_index(a)
+    r1_mean = get_mean(r1, index)
+    g1_mean = get_mean(g1, index)
+    b1_mean = get_mean(b1, index)
+    if r1_mean == 0 or g1_mean == 0 or b1_mean == 0:
+        return url
+
+    try:
+        r = np.array(np.minimum(np.maximum(np.array(r1) * (R / r1_mean), 0), 255), np.uint8)
+        g = np.array(np.minimum(np.maximum(np.array(g1) * (G / g1_mean), 0), 255), np.uint8)
+        b = np.array(np.minimum(np.maximum(np.array(b1) * (B / b1_mean), 0), 255), np.uint8)
+
+        r = Image.fromarray(r, "L")
+        g = Image.fromarray(g, "L")
+        b = Image.fromarray(b, "L")
+
+        res = Image.merge("RGBA", (r, g, b, a))
+
+        url2 = upload_img_hair_color(res, url2)
+    except Exception as e:
+        url2 = url
+    # print'trans_hair_color: {}'.format(url2)
+    return url2
