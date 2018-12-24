@@ -1,0 +1,18 @@
+import copy
+import json
+
+import xlrd
+import collections
+
+dir_case = '/home/liuzhe/Desktop/fanyuyue.xlsx'
+data = xlrd.open_workbook(dir_case)
+table = data.sheets()[0]
+title = ['项目','健康','发长','空行',20,30,40,70,85,120,150]
+
+def cell(row):
+    data = table._cell_values[row]
+    if not data[0]:
+        data[0] = cell(row-1)[0]
+        if not data[1]:
+            data[1] = cell(row-1)[1]
+    return data
