@@ -1,0 +1,36 @@
+# lz 2019
+from io import BytesIO
+
+import requests
+from PIL import Image
+from pyzbar.pyzbar import decode
+import qrcode
+
+def get_qrcode_data(url):
+
+    result = []
+    try:
+        # 获取图片内容
+        image_content = requests.get(url)
+        # 放入内存
+        image_content = BytesIO(image_content.content)
+        # 读取图片
+        img = Image.open(image_content)
+        # pyzbar 识别图片
+        barcodes = decode(img)
+        # 获取图片内容
+        result = barcodes[0] if len(barcodes) > 0 else ""
+        if result:
+            result = result[0].decode('utf-8')
+            if not ('https://u.wechat.com/' in result or 'weixin' in result):
+                print('不是微信二维码')
+                return None
+            # 使用图片内容生成二维码
+            img = qrcode.make(result, border=0)
+            img.save('/home/liuzhe/Desktop/mytest/qr.png')
+    except Exception as e:
+        print(str(e))
+    return result
+if __name__ == '__main__':
+
+    pass
